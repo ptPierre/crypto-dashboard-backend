@@ -4,13 +4,8 @@ const connectDB = require('./utils/db');
 
 // Register plugins
 fastify.register(require('@fastify/cors'), {
-  origin: (origin, cb) => {
-    // Allow requests with no origin (like mobile apps, curl, etc)
-    if (!origin) return cb(null, true);
-    
-    // In production, you'd want to restrict this to your frontend domain
-    return cb(null, true);
-  }
+  origin: ['http://localhost:5173', 'https://your-frontend-domain.com'],
+  credentials: true
 });
 
 // Register authentication plugin
