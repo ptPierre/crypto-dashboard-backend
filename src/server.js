@@ -2,12 +2,10 @@ const fastify = require('fastify')({ logger: true });
 const config = require('./config/config');
 const connectDB = require('./utils/db');
 
-// Register plugins
+// Register plugins - ONLY REGISTER CORS ONCE
 fastify.register(require('@fastify/cors'), {
-  origin: [
-    'http://localhost:5173',
-    'https://pierres-webdev-project.netlify.app'
-  ],
+  // Use the permissive configuration for now to fix the deployment
+  origin: true, // Allows all origins
   credentials: true,
   methods: ['GET', 'PUT', 'POST', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization', 'Accept']
@@ -23,14 +21,6 @@ fastify.register(require('./routes/favorites'), { prefix: `${config.api.prefix}/
 // Health check route
 fastify.get('/health', async (request, reply) => {
   return { status: 'OK' };
-});
-
-// More permissive CORS for debugging (not recommended for production)
-fastify.register(require('@fastify/cors'), {
-  origin: true, // Allows all origins
-  credentials: true,
-  methods: ['GET', 'PUT', 'POST', 'DELETE', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization', 'Accept']
 });
 
 // Start server only after DB connection

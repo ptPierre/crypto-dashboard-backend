@@ -1,7 +1,7 @@
 const fp = require('fastify-plugin');
 
 module.exports = fp(async function(fastify) {
-  fastify.register(require('fastify-jwt'), {
+  fastify.register(require('@fastify/jwt'), {
     secret: require('../config/config').auth.jwtSecret
   });
 
